@@ -161,4 +161,65 @@ Vegyük sorra, hogy mi minden történt:
 	\item Ismételten a Step-re nyomva lefut a HLT utasítás is. A HLT címfolytosan helyezkedik el (hiszen nem volt például ORG direktíva vagy hasonló), tehát a 2005h-n. Az adat csupán az utasítás opkódja, mert ehhez az utasításhoz nem tartozik semmilyen paraméter sem.
 	\item Végeztünk, elvileg most megtanultuk használni a szimulátort. Ezek után sok gyakorlással ezekkel az alapokkal már ügyesen fogunk tudni bánni ezzel a hasznos kis segédeszközzel.
 \end{enumerate}
+
+\subsection{Példa feladat az ellenőrző kérdések közül}
+Tipikus vizsga példa a fordítói direktivák számonkérésére. Ennek egy rövidebb változata beugróban is gyakran szerepel.
+Az értelmezend kód:
+
+% asm kód, amit szimulálni szeretnénk
+\begin{lstlisting}[frame=single]
+ADAT0 EQU 14
+ORG 800h
+ADAT1: DB ADAT0, 11100111b
+ORG 5678h
+ADAT2: DS 2
+ADAT3: DW 2017h
+ADAT4: DW ADAT2
+ADAT5: DB 314h
+\end{lstlisting}
+
+A megoldás:
+
+\begin{center}
+\begin{tabular}{ |c|c| } 
+ \hline
+ Cím (hexa) & Adat (hexa) \\ \hline
+ 0800 & 0E \\ \hline
+ 0801 & E7 \\ \hline
+ 5678 & X \\ \hline
+ 5679 & X \\ \hline
+ 567A & 17 \\ \hline
+ 567B & 20 \\ \hline
+ 567C & 78 \\ \hline
+ 567D & 56 \\ \hline
+ 567E & 14 \\ \hline
+ \hline
+\end{tabular}
+\end{center}
+
+Ez mind szép és jó, na de miért ez a megoldás? Vegyük sorra, hogy mi és miért így szerepel a megoldásban:
+\begin{itemize}
+	\item Az EQU fordítói direktíva egy konstans számértéket deklarál, amit az ADAT0 névvel érhetünk el. A konstans szám mögött nem szerepel számrendszert meghatározó betű, ezért alapértelmezettként decimális számrendszerben értelmezzük. Mivel a táblázat hexában kéri az adatokat, ezért a 14 decimális számot át kell váltani hexadecimális számrendszerbe, ez ugyebár az Eh lesz. Mivel bájtos szervezésű a memória, ezért ki kell egészíteni a félbájtos Eh számot bájtosra, ami egy nullás hexa számjegy eléírását jelenti.
+	\item \colorbox{orange!30}{Egy bináris szám elejére tetszőleges számú nullát odaírva nem változik a szám értéke.}
+	\item Az ORG fordítói direktíva azt jelenti, hogy a fordító milyen memóriacímre kezdje el elhelyezni az ORG-ot követő utasításokat a memóriában. Az ORG 800h azt jelenti tehát, hogy 0800h-tól kezdi el a kódokat elhelyezni a memóriában.
+	\item \colorbox{orange!30}{A 8085-nek 16 adatvezetéke van, ami azt jelenti, hogy egy memóriacímet 4 hexa számjeggyel írunk le.}
+	\item Az ORG után különböző adatokat definálunk többféle módon a fordító segítségével.
+	\begin{itemize}
+		\item DS (Define Space, inicializálatlan helyfoglalás): helyet foglal, de nem tölti fel tartalommal
+		\item DB (Define Byte, inicializált 1 bájtos helyfoglalás): 1 bájtnyi helyet foglal és feltölti tartalommal
+		\item DW (Define Word, inicializált 2 bájtos helyfoglalás): 2 bájtnyi helyet foglal és feltölti tartalommal
+	\end{itemize}
+	\item Az ORG után először DB szerepel, vagyis a 0800h címtől el fogunk helyezni 2 darab 1 bájtos adatot, mert a DB után 2 érték szerepel.
+	\item Először a DB ADAT0 jelentését vizsgáljuk meg. Az ADAT0 konstant érték az E0h, ez pont 1 bájt, vagyis a DB trükkök nélkül el tudja helyezni a 0800h címre.
+	\item a DB utáni második paraméter a következő címre (mert nem írtunk semmit, ami ezen változtatna) helyezi el az 1110111b-t. Hexába ezt át kell váltani: E7h.
+	\item Még egy ORG jön, vagyis most máshova fogjuk már folytatni a kód elhelyezését, még pedig az 5678h címtől.
+	\item A DS 2 jelentése, hogy 2 bájtnyi adatot fogunk inicializálás nélkül elhelyezni.
+	\item \colorbox{orange!30}{A DS után szereplő számnak megfelelő bájtot foglalunk le iniciaizálás nélkül.}
+	\item a DW mivel 2 bájtot helyez el, ezért 2 memóriacímre fog adatot tenni. Címfolytosan csináljuk ezt, mert nem volt újabb ORG vagy ilyesmi, ami ezen változtatna.
+	\item A 2017h-t kell elhelyezni a memóriában. Ez könnyű, hiszen ez pont 2 bájt, vagyis semmi trükk. Mivel little-endian a processzor, ezért a kisebb címre az alsó bájtot tesszük, a nagyobb címre a felső bájtot. Vagyis a 17h-t az 567Ah-ra, a 20h-t az 567Bh-ra.
+	\item \colorbox{orange!30}{Vigyázzatok, szinte minden vizsgában kell a 9h számot eggyel növelni, ami ugyebár hexában az Ah!}
+	\item A következő DW-nek az ADAT2h-nek megfelelő értéket kell a memóriába tennie. Ez már picit bonyolult. Az ORG 5678h után szerepel az ADAT2 címke, tehát az ADAT2 értéke az a szám, amelyik memóriacímet jelenti ez a címke: 5678h. Ez egy 2 bájtos adat, ezt már el tudjuk helyezni little-endian módon a következő 2 memóriacímre.
+	\item A végére maradt a nyalánkság, mert a DB 314h ismét trükkös. A probléma az, hogy a DB ugyebár 1 bájtnyi adatot tud a memóriába tenni, de a 314h összesen másfél bájton fér el, tehát fél bájtot nem tud betenni a memóriába. Mivel little-endian szervezésű a processzor, ezért az alacsonyabbik bájtot (a másfél bájtos adatból) elhelyezi a megfelelő címre, a maradék részet pedig levágja, ami nem fér el 1 bájton, tehát a felső fél bájtot).
+\end{itemize}
+
 \end{document}
