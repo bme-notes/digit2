@@ -75,7 +75,7 @@ A szimulálandó kódot a Direct assembly ablakba kell írni:
 \includegraphics[scale=0.5]{sim_lepes1.png} \\
 Ezután a Send gombra kattintva menjünk tovább, ahol ez fogad minket:
 
-\includegraphics[scale=0.5]{sim_lepes2.png}
+\includegraphics[scale=0.4]{sim_lepes2.png}
 
 \subsubsection{2. lépés: szimuláció beállítása}
 
@@ -91,7 +91,7 @@ Ezek elvégzése után ezt kell látni:
 \includegraphics[scale=0.5]{sim_lepes3.png} \\
 Az OK gombra kattintva megjelenik az oldal alján a táblázat fejléce:
 
-\includegraphics[scale=0.5]{sim_lepes4.png}
+\includegraphics[scale=0.48]{sim_lepes4.png}
 
 A táblázat fejléce:
 \begin{enumerate}
@@ -145,7 +145,7 @@ Vegyük sorra, hogy mi minden történt:
 		\item Felolvastunk az MVI M, 11h-hoz tartozó minden adatot, szóval el tudjuk ténylegesen végezni az utasítást fizikailag is: elhelyezzük az M által mutatott memóriacímre a 11h-t.
 		\item Az M pointer a HL regiszterpár tartalmával jelölt memóriacímre mutat, a HL-ben jelenleg a 2100h van, hiszen az imént tettük bele. Így a 2100h címre írjuk a 11h-t. Ez látszik a táblázatban is. 
 		\item Figyeljük meg, hogy a $\overline{WR} = 0$, mert ez egy adat írása egy adott memóriacímre. Az Address oszlopban a 2100h szerepel, hiszen erre a címre írunk adatot. A Data oszlopban a 11h érték szerepel, mert ezt az adatot írjuk oda.
-		\item \colorbox{orange!30}{Látható, hogy a H és L oszlopokban a  regiszterpár tartalma az előbb odahelyezett 21h és 00h.}
+		\item \colorbox{orange!30}{A H és L oszlopokban a  regiszterpár tartalma az előbb odahelyezett 21h és 00h.}
 	\end{enumerate}
 	\item Ismételten a Step-re nyomva lefut a HLT utasítás is. A HLT címfolytosan helyezkedik el (hiszen nem volt például ORG direktíva vagy hasonló), tehát a 2005h-n. Az adat csupán az utasítás opkódja, mert ehhez az utasításhoz nem tartozik semmilyen paraméter sem.
 	\item Végeztünk, elvileg most megtanultuk használni a szimulátort. Ezek után sok gyakorlással ezekkel az alapokkal már ügyesen fogunk tudni bánni ezzel a hasznos kis segédeszközzel.
@@ -177,12 +177,12 @@ RET ; visszateres a szubrutinbol
 \end{lstlisting}
 A program futása során a következő adatok lesznek a memória- és a címsínen:
 \begin{center}
-\begin{tabular}{ |c|c|c|c| } 
+\begin{tabular}{ |c|c|c|l| } 
  \hline
  Cím (hexa) & Adat (hexa) & Írás / olvasás & Megjegyzés \\ \hline
  1200 & CD & olvasás & CALL opkódjának olvasása \\ \hline
- 1201 & 00 & olvasás & szubrutin címének olvasása (cím alsó bájtja, hiszen little-endian) \\ \hline
- 1202 & 50 & olvasás & szubrutin címének olvasása (cím felső bájtja, hiszen little-endian) \\ \hline
+ 1201 & 00 & olvasás & szubrutin címének olvasása (alsó bájt) \\ \hline
+ 1202 & 50 & olvasás & szubrutin címének olvasása (felső bájt) \\ \hline
  90FF & 12 & írás & visszatérési cím felső bájtját írja a stackre \\ \hline
  90FE & 03 & írás & visszatérési cím alsó bájtját írja a stackre \\ \hline
  5000 & DB & olvasás & IN opkódjának olvasása \\ \hline
@@ -221,6 +221,7 @@ Gyakori eset, hogy egy szubrutin során használni szeretnénk valamelyik regisz
 	\item Regisztertár használata, mint ideiglenes tároló
 	\item Használat után a regiszterpár eredeti értékének visszatöltése
 \end{enumerate}
+\newpage
 Nézzük erre egy példát:
 \begin{lstlisting}[frame=single]
 FOPROGRAM:
@@ -236,7 +237,7 @@ LXI D, 1234h ; D regiszterpar hasznalata
 POP D ; hasznalat utan az eredeti ertek visszatoltese
 RET ; visszateres a foprogramba
 \end{lstlisting}
-\colorbox{orange!30}{Fontos, hogy POP-nál a megfelelő helyre mutasson az SP, különben nem a D eredeti értékét tölti vissza!}
+\colorbox{orange!30}{POP-nál a megfelelő helyre mutasson az SP, különben nem a D eredeti értékét tölti vissza!}
 
 \subsubsection{Olvasás a stackről}
 A stackről 2 bájtonként lehet az adatokat visszatölteni. \\
@@ -263,7 +264,7 @@ SZUBRUTIN:
 PUSH D ; D regiszterpar elmentese a stack-re
 ...
 ORG 2010h ; innentol helyezzuk el a kodot
-POP D ; hasznalat utan az eredeti ertek visszatoltese a stack-rol
+POP D ; hasznalat utan az eredeti ertek visszatoltese
 RET ; visszateres a foprogramba
 \end{lstlisting}
 A program futása során a következő adatok lesznek a memória- és a címsínen:
@@ -272,8 +273,8 @@ A program futása során a következő adatok lesznek a memória- és a címsín
  \hline
  Cím (hexa) & Adat (hexa) & Írás / olvasás & Megjegyzés \\ \hline
  1000 & CD & olvasás & CALL opkódjának olvasása \\ \hline
- 1001 & 00 & olvasás & szubrutin címének olvasása (cím alsó bájtja, hiszen little-endian) \\ \hline
- 1002 & 20 & olvasás & szubrutin címének olvasása (cím felső bájtja, hiszen little-endian) \\ \hline
+ 1001 & 00 & olvasás & szubrutin címének olvasása (alsó bájt) \\ \hline
+ 1002 & 20 & olvasás & szubrutin címének olvasása (felső bájt) \\ \hline
  90FF & 10 & írás & visszatérési cím felső bájtját írja a stackre \\ \hline
  90FE & 03 & írás & visszatérési cím alsó bájtját írja a stackre \\ \hline
  2000 & D5 & olvasás & PUSH D opkódjának olvasása \\ \hline
@@ -320,7 +321,6 @@ A megoldás:
  567C & 78 \\ \hline
  567D & 56 \\ \hline
  567E & 14 \\ \hline
- \hline
 \end{tabular}
 \end{center}
 Ez mind szép és jó, na de miért ez a megoldás? Vegyük sorra, hogy mi és miért így szerepel a megoldásban:
@@ -328,7 +328,7 @@ Ez mind szép és jó, na de miért ez a megoldás? Vegyük sorra, hogy mi és m
 	\item Az EQU fordítói direktíva egy konstans számértéket deklarál, amit az ADAT0 névvel érhetünk el. A konstans szám mögött nem szerepel számrendszert meghatározó betű, ezért alapértelmezettként decimális számrendszerben értelmezzük. Mivel a táblázat hexában kéri az adatokat, ezért a 14 decimális számot át kell váltani hexadecimális számrendszerbe, ez ugyebár az Eh lesz. Mivel bájtos szervezésű a memória, ezért ki kell egészíteni a félbájtos Eh számot bájtosra, ami egy nullás hexa számjegy eléírását jelenti.
 	\item \colorbox{orange!30}{Egy bináris szám elejére tetszőleges számú nullát odaírva nem változik a szám értéke.}
 	\item Az ORG fordítói direktíva azt jelenti, hogy a fordító milyen memóriacímre kezdje el elhelyezni az ORG-ot követő utasításokat a memóriában. Az ORG 800h azt jelenti tehát, hogy 0800h-tól kezdi el a kódokat elhelyezni a memóriában.
-	\item \colorbox{orange!30}{A 8085-nek 16 adatvezetéke van, ami azt jelenti, hogy egy memóriacímet 4 hexa számjeggyel írunk le.}
+	\item \colorbox{orange!30}{A 8085-nek 16 adatvezetéke van, vagyis egy memóriacímet 4 hexa számjeggyel írunk le.}
 	\item Az ORG után különböző adatokat definálunk többféle módon a fordító segítségével.
 	\begin{itemize}
 		\item DS (Define Space, inicializálatlan helyfoglalás): helyet foglal, de nem tölti fel tartalommal
@@ -343,7 +343,7 @@ Ez mind szép és jó, na de miért ez a megoldás? Vegyük sorra, hogy mi és m
 	\item \colorbox{orange!30}{A DS után szereplő számnak megfelelő bájtot foglalunk le iniciaizálás nélkül.}
 	\item a DW mivel 2 bájtot helyez el, ezért 2 memóriacímre fog adatot tenni. Címfolytosan csináljuk ezt, mert nem volt újabb ORG vagy ilyesmi, ami ezen változtatna.
 	\item A 2017h-t kell elhelyezni a memóriában. Ez könnyű, hiszen ez pont 2 bájt, vagyis semmi trükk. Mivel little-endian a processzor, ezért a kisebb címre az alsó bájtot tesszük, a nagyobb címre a felső bájtot. Vagyis a 17h-t az 567Ah-ra, a 20h-t az 567Bh-ra.
-	\item \colorbox{orange!30}{Vigyázzatok, szinte minden vizsgában kell a 9h számot eggyel növelni, ami ugyebár hexában az Ah!}
+	\item \colorbox{orange!30}{Figyeljetek oda, hogy 09h után 0Ah van!}
 	\item A következő DW-nek az ADAT2h-nek megfelelő értéket kell a memóriába tennie. Ez már picit bonyolult. Az ORG 5678h után szerepel az ADAT2 címke, tehát az ADAT2 értéke az a szám, amelyik memóriacímet jelenti ez a címke: 5678h. Ez egy 2 bájtos adat, ezt már el tudjuk helyezni little-endian módon a következő 2 memóriacímre.
 	\item A végére maradt a nyalánkság, mert a DB 314h ismét trükkös. A probléma az, hogy a DB ugyebár 1 bájtnyi adatot tud a memóriába tenni, de a 314h összesen másfél bájton fér el, tehát fél bájtot nem tud betenni a memóriába. Mivel little-endian szervezésű a processzor, ezért az alacsonyabbik bájtot (a másfél bájtos adatból) elhelyezi a megfelelő címre, a maradék részet pedig levágja, ami nem fér el 1 bájton, tehát a felső fél bájtot).
 \end{itemize}
