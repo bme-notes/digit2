@@ -33,8 +33,7 @@
 
 % jogászkodás
 \section{Bevezetés}
-Ez a jegyzet a BME Digitális technika 2. tantárgyhoz szeretne segítséget nyújtani. Ezen kezdeményezés célja, hogy segítsen a hallgatóknak megérteni a tananyagot. A tantárgy nehéz, erősen ajánlott előadásra, gyakorlatra járni. Ez a jegyzet csak az előadáson, gyakorlaton készült jegyzet mellé jelent segítséget, nem tanít meg a nulláról a tantárgy minden apróságára.
-
+Ez a jegyzet a BME Digitális technika 2. tantárgyhoz szeretne segítséget nyújtani. Ezen kezdeményezés célja, hogy segítsen a hallgatóknak megérteni a tananyagot. A tantárgy nehéz, erősen ajánlott előadásra, gyakorlatra járni. Ez a jegyzet csak az előadáson, gyakorlaton készült jegyzet mellé jelent segítséget, nem tanít meg a nulláról a tantárgy minden apróságára. \\
 Ez egy hallgatói jegyzet, nincs lektorálva, se egyetemi oktató által felügyelve. Amit itt olvasol, azt csak saját felelősségre használd, hivatalos helyeken nem hivatkozási alap ez a jegyzet.
 
 \newpage % új oldal
@@ -54,16 +53,12 @@ Ez egy hallgatói jegyzet, nincs lektorálva, se egyetemi oktató által felügy
 \section{Assembly}
 Digitális technika 2. tantárgy során az Intel 8085 processzor programozásához használt Assembly programozási nyelvet tanítják. Ez a fejezet erről az Assembly-ről szól.
 \subsection{Tanszéki szimulátor használata}
-Van egy az IIT-n fejlesztett Intel 8085 szimulátor. Ennek segítségével tetszőleges kódot tudunk futtatni egy virtuális Intel 8085 processzoron. Tetszőleges kód alatt értem, hogy bármit, ami a processzor utasításkészlete és fordítói direktívái lehetővé tesznek.
-
-A tanszéki szimulátor a következő linken érhető el:
-
-\url{http://topcat.iit.bme.hu/tools/i8085sim/i8085sim.cgi}
-
+Van egy az IIT-n fejlesztett Intel 8085 szimulátor. Ennek segítségével tetszőleges kódot tudunk futtatni egy virtuális Intel 8085 processzoron. Tetszőleges kód alatt értem, hogy bármit, ami a processzor utasításkészlete és fordítói direktívái lehetővé tesznek. \\
+A tanszéki szimulátor a következő linken érhető el: \\
+\url{http://topcat.iit.bme.hu/tools/i8085sim/i8085sim.cgi} \\
 A szimulátor a következő módon néz ki:
 
-\includegraphics[scale=0.5]{sim.png}
-
+\includegraphics[scale=0.5]{sim.png} \\
 A következő kódot szeretnénk a szimulátorban futtatni:
 % asm kód, amit szimulálni szeretnénk
 \begin{lstlisting}[frame=single]
@@ -77,8 +72,7 @@ END ; eddig forditson
 \subsubsection{1. lépés: kód beillesztése}
 A szimulálandó kódot a Direct assembly ablakba kell írni:
 
-\includegraphics[scale=0.5]{sim_lepes1.png}
-
+\includegraphics[scale=0.5]{sim_lepes1.png} \\
 Ezután a Send gombra kattintva menjünk tovább, ahol ez fogad minket:
 
 \includegraphics[scale=0.5]{sim_lepes2.png}
@@ -94,8 +88,7 @@ Néhány beállítást el kell végeznünk, hogy a megfelelő módon tudjuk nyom
 Az utolsó 2 opció ahhoz kell, hogy egy szép táblázatos formában jelenítse meg a kód futását és utasításonként haladjon a kód végrehajtása során.
 Ezek elvégzése után ezt kell látni:
 
-\includegraphics[scale=0.5]{sim_lepes3.png}
-
+\includegraphics[scale=0.5]{sim_lepes3.png} \\
 Az OK gombra kattintva megjelenik az oldal alján a táblázat fejléce:
 
 \includegraphics[scale=0.5]{sim_lepes4.png}
@@ -118,21 +111,17 @@ A táblázat fejléce:
 	\end{enumerate}
 	\item SP: Stack Pointer aktuális értéke
 \end{enumerate}
-
 A PC mezőbe írjuk bele a címet, ahova helyeztük a kódot, jelen példában a 2000h-t:
 
-\includegraphics[scale=0.5]{sim_lepes5.png}
-
+\includegraphics[scale=0.5]{sim_lepes5.png} \\
 Ha be kell állítani a regiszterek kezdőértéket, akkor a megfelelő regiszterek mezőjébe írjuk bele a szükséges értéket.
 
 \subsubsection{3. lépés: kód követése}
 
-A bal oldali ablakban látható, hogy a PC a 2000h-ra mutat, ezt a kék háttérrel jelöli a rendszer (soron következő utasítás).
-
+A bal oldali ablakban látható, hogy a PC a 2000h-ra mutat, ezt a kék háttérrel jelöli a rendszer (soron következő utasítás).\\ 
 Ha rámegyünk a Step gombra az oldal tetején, akkor lefuttatja a PC által jelölt utasítást és az oldal alján elhelyezkedő táblázatban megjelenik néhány adat:
 
-\includegraphics[scale=0.5]{sim_lepes6.png}
-
+\includegraphics[scale=0.5]{sim_lepes6.png} \\
 Vegyük sorra, hogy mi minden történt:
 \begin{enumerate}
 	\item A bal oldali fehér ablakban a kék háttér most már a soron következő utasításra mutat (MVI   M, 11), hiszen az előző utasítást már lefuttattuk és tovább lépett.
@@ -162,6 +151,145 @@ Vegyük sorra, hogy mi minden történt:
 	\item Végeztünk, elvileg most megtanultuk használni a szimulátort. Ezek után sok gyakorlással ezekkel az alapokkal már ügyesen fogunk tudni bánni ezzel a hasznos kis segédeszközzel.
 \end{enumerate}
 
+\subsection{Utasísátok}
+\subsubsection{CALL}
+A CALL utasítás egy feltétel nélküli szubrutinhívás. \\
+A legfontosabb ismeretek a CALL utasítás használatához:
+\begin{enumerate}
+	\item Kimenti a stackre a CALL utáni utasítás címét, vagyis eltárolja a szubrutin visszatérési címét, ahonnan folytatni kell a szubrutinból való visszatérés után.
+	\item A stack müvelet kapcsán csökkenti az SP tartalmát kettővel (hiszen 2 bájtot írtunk a stackre)
+	\item A PC-t átállítja z utasítás 2. és 3. bájtjában kapott címre, vagyis a szubrutin címétől folytatja a program végrehajtását
+	\item 5 gépi ciklus: opkód olvasás (1 ciklus), szubrutin címének felolvasása (2 ciklus), írás a stackre (2 ciklus)
+\end{enumerate}
+Nézzük egy példát erre. Tételezzük fel, hogy az SP értéke 9100h.
+% asm kód: call utasítás
+\begin{lstlisting}[frame=single]
+; SP erteke: 9100h
+ORG 1200h ; innentol helyezzuk el a kodot
+CALL SZUBRUTIN ; szubrutinhivas
+...
+ORG 5000h ; szubrutin kezdocime
+SZUBRUTIN:
+IN 12h ; elso utasitas a szubrutinban
+...
+RET ; visszateres a szubrutinbol
+...
+\end{lstlisting}
+A program futása során a következő adatok lesznek a memória- és a címsínen:
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ Cím (hexa) & Adat (hexa) & Írás / olvasás & Megjegyzés \\ \hline
+ 1200 & CD & olvasás & CALL opkódjának olvasása \\ \hline
+ 1201 & 00 & olvasás & szubrutin címének olvasása (cím alsó bájtja, hiszen little-endian) \\ \hline
+ 1202 & 50 & olvasás & szubrutin címének olvasása (cím felső bájtja, hiszen little-endian) \\ \hline
+ 90FF & 12 & írás & visszatérési cím felső bájtját írja a stackre \\ \hline
+ 90FE & 03 & írás & visszatérési cím alsó bájtját írja a stackre \\ \hline
+ 5000 & DB & olvasás & IN opkódjának olvasása \\ \hline
+ ... & ... & ... & ... \\ \hline
+\end{tabular}
+\end{center}
+
+\subsection{A stack (verem) működése}
+A stack (verem) egy ideiglenes tároló, ahova regiszterpárok értékeit, szubrutinok visszatérési címeit tudjuk többet között eltárolni. \\
+A stack tetejére a Stack Pointer (SP) mutat, ami egy speciális regiszter pár. \\
+A stack-re kizárólag 2 bájtonként lehet adatot írni. \\
+A stack-re írás lépései:
+\begin{enumerate}
+	\item A magasabb helyiértékű bájt kerül az SP-1-re
+	\item Az alacsonyabbik bájt kerül az SP-2-re
+	\item 2-vel csökken az SP értéke
+\end{enumerate}
+A stack-et használó néhány fontosabb utasítás:
+\begin{enumerate}
+	\item PUSH rp: regiszterpár mentése a stackre
+	\item POP rp; regiszterpárba visszatöltése a stackről
+	\item CALL addr: szubrutinhívás, visszatérési cím mentése a stackre
+	\item RET: szubrutinból visszatérünk az őt meghívó programrészbe, visszatérési cím felolvasása a stackről
+\end{enumerate}
+\subsubsection{Stack Pointer inicializálása}
+A Stack Pointernek kezdeti értéket például az LXI utasítással adhatunk:
+% asm kód: sp inic
+\begin{lstlisting}[frame=single]
+LXI SP, 9100h ; SP erteke legyen 9100h
+\end{lstlisting}
+\subsubsection{Írás a stackre}
+A stack-re el tudjuk menteni adott regiszterpár értékét, majd azt vissza is tudjuk tölteni onnan. \\
+Gyakori eset, hogy egy szubrutin során használni szeretnénk valamelyik regisztert. Ha a szubrutinnak nem feladata a regiszterek módosítása, tehát nem ott akar például visszatérési értéket visszaadni, csak egy ideiglenes tárolóra van szükségünk, akkor a következő a teendő:
+\begin{enumerate}
+	\item Használni kívánt regiszterpár kimentése a stackre (PUSH utasítás)
+	\item Regisztertár használata, mint ideiglenes tároló
+	\item Használat után a regiszterpár eredeti értékének visszatöltése
+\end{enumerate}
+Nézzük erre egy példát:
+\begin{lstlisting}[frame=single]
+FOPROGRAM:
+...
+LXI SP, 9100h ; SP erteke legyen 9100h
+...
+CALL SZUBRUTIN ; szubrutin hivasa a foprogrambol
+...
+SZUBRUTIN:
+PUSH D ; D regiszterpar elmentese a stack-re
+LXI D, 1234h ; D regiszterpar hasznalata
+...
+POP D ; hasznalat utan az eredeti ertek visszatoltese
+RET ; visszateres a foprogramba
+\end{lstlisting}
+\colorbox{orange!30}{Fontos, hogy POP-nál a megfelelő helyre mutasson az SP, különben nem a D eredeti értékét tölti vissza!}
+
+\subsubsection{Olvasás a stackről}
+A stackről 2 bájtonként lehet az adatokat visszatölteni. \\
+A stackről olvasás folyamata:
+\begin{enumerate}
+	\item Felolvassuk az alacsonyabbik bájtot az SP által mutatott címről
+	\item Felolvassuk a magasabbik helyiértékű bájtot az SP+1 címről
+	\item Megnöveljük 2-vel az SP értékét
+\end{enumerate}
+
+\subsubsection{Példa a stack műveletekre}
+Vizsgáljuk meg az alábbi kódot.
+\begin{lstlisting}[frame=single]
+FOPROGRAM:
+...
+LXI SP, 9100h ; SP erteke legyen 9100h
+LXI D, 1234h ; DE regiszterpar erteke legyen 1234h
+...
+ORG 1000h ; innentol helyezzuk el a kodot
+CALL SZUBRUTIN ; szubrutin hivasa a foprogrambol
+...
+ORG 2000h ; innentol helyezzuk el a kodot
+SZUBRUTIN:
+PUSH D ; D regiszterpar elmentese a stack-re
+...
+ORG 2010h ; innentol helyezzuk el a kodot
+POP D ; hasznalat utan az eredeti ertek visszatoltese a stack-rol
+RET ; visszateres a foprogramba
+\end{lstlisting}
+A program futása során a következő adatok lesznek a memória- és a címsínen:
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ Cím (hexa) & Adat (hexa) & Írás / olvasás & Megjegyzés \\ \hline
+ 1000 & CD & olvasás & CALL opkódjának olvasása \\ \hline
+ 1001 & 00 & olvasás & szubrutin címének olvasása (cím alsó bájtja, hiszen little-endian) \\ \hline
+ 1002 & 20 & olvasás & szubrutin címének olvasása (cím felső bájtja, hiszen little-endian) \\ \hline
+ 90FF & 10 & írás & visszatérési cím felső bájtját írja a stackre \\ \hline
+ 90FE & 03 & írás & visszatérési cím alsó bájtját írja a stackre \\ \hline
+ 2000 & D5 & olvasás & PUSH D opkódjának olvasása \\ \hline
+ 90FD & 12 & írás & D regiszter tartalmat menti az SP-1-re \\ \hline
+ 90FC & 34 & írás & E regiszter tartalmat menti az SP-2-re \\ \hline
+ ... & ... & ... & ... \\ \hline
+ 2010 & D1 & olvasás & POP D opkódjának olvasása, visszatoltes a DE-be \\ \hline
+ 90FC & 34 & írás & E regiszterbe visszatolti az SP-2-n levo adatot \\ \hline
+ 90FD & 12 & írás & D regiszterbe visszatolti az SP-1-n levo adatot \\ \hline
+ 2011 & C9 & olvasás & RET opkódjának olvasása \\ \hline
+ 90FE & 03 & olvasás & visszatérési cím alsó bájtját olvassa a stackről \\ \hline
+ 90FF & 10 & olvasás & visszatérési cím felső bájtját olvassa a stackről \\ \hline
+ ... & ... & ... & ... \\ \hline
+\end{tabular}
+\end{center}
+
 \subsection{Példa feladat az ellenőrző kérdések közül}
 Tipikus vizsga példa a fordítói direktivák számonkérésére. Ennek egy rövidebb változata beugróban is gyakran szerepel.
 Az értelmezend kód:
@@ -177,7 +305,6 @@ ADAT3: DW 2017h
 ADAT4: DW ADAT2
 ADAT5: DB 314h
 \end{lstlisting}
-
 A megoldás:
 
 \begin{center}
@@ -196,7 +323,6 @@ A megoldás:
  \hline
 \end{tabular}
 \end{center}
-
 Ez mind szép és jó, na de miért ez a megoldás? Vegyük sorra, hogy mi és miért így szerepel a megoldásban:
 \begin{itemize}
 	\item Az EQU fordítói direktíva egy konstans számértéket deklarál, amit az ADAT0 névvel érhetünk el. A konstans szám mögött nem szerepel számrendszert meghatározó betű, ezért alapértelmezettként decimális számrendszerben értelmezzük. Mivel a táblázat hexában kéri az adatokat, ezért a 14 decimális számot át kell váltani hexadecimális számrendszerbe, ez ugyebár az Eh lesz. Mivel bájtos szervezésű a memória, ezért ki kell egészíteni a félbájtos Eh számot bájtosra, ami egy nullás hexa számjegy eléírását jelenti.
