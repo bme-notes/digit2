@@ -1,0 +1,27 @@
+sudo: required
+dist: trusty
+addons:
+  apt:
+    packages:
+    - texlive-xetex
+    - texlive-latex-extra
+    - lmodern
+    - texlive-latex-recommended
+    - xzdec
+    - texlive-fonts-recommended
+script:
+- tlmgr init-usertree
+- tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final
+- tlmgr update --all
+- tlmgr install etoolbox tcolorbox framed polyglossia hyperref pgf xcolor
+- xelatex digit2.tex
+- xelatex digit2.tex
+deploy:
+  provider: releases
+  api_key:
+    secure: Z/zj8uFTcxLoVBY2YUhumu8eL3hqcbGQlUBGxKY5onAjG7Hnahj3TLwjXi0w6SKQ7nZJtyYj6znTL61CClYAtUOws+1KW9cKYT31mPoDbjXMwrRGluffc3iXChhXkPoCN7vJfcLGrq2v7NL2Z3hU/oYb6dR6hjADHXeztM76UJRF8Y2T5c+XFMklAO5wYYsWkrFmRsVMmDg+j4Wnl3I8FIR9v2gmvkmPpsDSynO1a88179faIhXoXHjMxDbzCyQepUFzfmCz2D7oZ4llKoRZdJiIDqdncmH2DeNnr/2nuXWGVfW6gnK9KkRHjoxAJFzVSmEmQyurWjnCpXlTj6NjbzBcq0mjLx8wNoxAMKPyhWzTY8Ua4b3mwEoslLzlmTg0ttMaHQ1qYEX8bm7qcH2Wi3GhR1S/J2lBseK/WCwXQgp4Q1me+J8Fb0cFcKJWti7dtG9iiuSNmlgJLaGuD9xNF+10Mbsw2ehjyvuBAWhReSuZyN7cC7bO3iyY/tXH9nEiZG5MgnpckDLN3J4Lppk43j9rzzsPgwDVexDr+DXNSbxIYgz9z/fWuVlrD+zoJ2Pz8xlEJTK4RPYGNsRlyHsQYW7SCDJGMOiA57b7cTMUckLRog7fn/rRXuwRXp/C7bKXXjirVp2X1EhdbndiPk81S5eG1t5o/xNAU+pZTs3hBBs=
+  file: digit2.pdf
+  skip-cleanup: true
+  overwrite: true
+  on:
+    repo: bme-notes/digit2
