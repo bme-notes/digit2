@@ -1,5 +1,6 @@
-# digit2_jegyzet
-Digitális technika 2. hallgatói jegyzet
+# [Digitális technika 2. jegyzet](https://bme-notes.github.io/#digit2)
+
+[![Build Status](https://travis-ci.org/bme-notes/digit2.svg?branch=master)](https://travis-ci.org/bme-notes/digit2)
 
 ## Leírás
 * Ez a jegyzet a BME Digitális technika 2. tantárgyhoz szeretne segítséget nyújtani. Ezen kezdeményezés célja, hogy segítsen a hallgatóknak megérteni a tananyagot. A tantárgy nehéz, erősen ajánlott előadásra, gyakorlatra járni. Ez a jegyzet csak az előadáson, gyakorlaton készült jegyzet mellé jelent segítséget, nem tanít meg a nulláról a tantárgy minden apróságára.
