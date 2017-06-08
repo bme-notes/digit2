@@ -1,0 +1,53 @@
+%%%% Beállítások, importok
+
+\input{includes/header.tex}
+
+\lstset{language=[x86masm]Assembler} % kódrészlet színezéséhez
+\graphicspath{{./images/}} % melyik mappában vannak a képek
+
+%%%%
+%%%%%%%
+%%%% Ezeket változtasd meg!
+
+\cim{Digitális technika 2. jegyzet}
+\datum{2017. tavasz}
+\szerzo{Sebők Bence}
+\segitettek{} % Ha irsz bele valakit, majd torold ki a kommentet a 25. sorbol!
+
+%%%%
+%%%%%%%
+%%%% Fedlap
+
+\begin{document}
+\begin{titlepage}
+		\centering
+		\vspace{5cm}\par
+		\maketitle
+		\large A jegyzet és annak forrása megtalálható a \texttt{bme-notes.github.io} weboldalon.
+		\vfill
+		% Közreműködtek: \the\segitettek
+		\normalsize
+		% Bottom of the page
+\end{titlepage}
+
+%%%%
+%%%%%%%
+%%%% Tartalomjegyzés + előszó
+
+\noindent \textbf{Kellemes vizsgázást!}
+
+\tableofcontents{}
+
+\section{Előszó}
+Ez a jegyzet a BME Digitális technika 2. tantárgyhoz szeretne segítséget nyújtani. Ezen kezdeményezés célja, hogy segítsen a hallgatóknak megérteni a tananyagot. A tantárgy nehéz, erősen ajánlott előadásra, gyakorlatra járni. Ez a jegyzet csak az előadáson, gyakorlaton készült jegyzet mellé jelent segítséget, nem tanít meg a nulláról a tantárgy minden apróságára.
+
+Ez egy hallgatói jegyzet, nincs lektorálva, se egyetemi oktató által felügyelve. Amit itt olvasol, azt csak saját felelősségre használd, hivatalos helyeken nem hivatkozási alap ez a jegyzet.
+
+%%%%
+%%%%%%%
+%%%% Tényleges content
+%%%% A fejezeteket a fejezetek/$NEV.tex elérési útvonalon keresi
+\ujfejezet{alapismeretek}
+\ujfejezet{assembly}
+
+\end{document}
